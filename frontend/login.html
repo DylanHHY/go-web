@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Login</title>
-</head>
-<body>
+  </head>
+  <body>
     <h2>Login</h2>
     <form id="loginForm">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+      <br />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <br />
+      <button type="submit">Login</button>
     </form>
 
     <script>
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
 
-            const requestData = {
-                Email: document.getElementById("email").value,
-                Password: document.getElementById("password").value,
-            };
+          const requestData = {
+            Email: document.getElementById("email").value,
+            Password: document.getElementById("password").value,
+          };
 
-            fetch("http://localhost:8080/api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(requestData),
+          fetch("/api/vi/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert(data.message);
+                // You can redirect to a different page here
+              } else {
+                alert("Login failed: " + data.message);
+              }
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    // You can redirect to a different page here
-                } else {
-                    alert("Login failed: " + data.message);
-                }
-            })
-            .catch(error => {
-                alert("An error occurred while logging in.");
-                console.log("Response:", error.response);
+            .catch((error) => {
+              alert("An error occurred while logging in.");
+              console.log("Response:", error.response);
             });
         });
     </script>
-</body>
+  </body>
 </html>

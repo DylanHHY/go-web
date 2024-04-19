@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Register</title>  
+  <head>
+    <title>Register</title>
     <!-- <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,54 +34,63 @@
             background-color: #0056b3;
         }
     </style> -->
-</head>
-<body>
+  </head>
+  <body>
     <h2>Register</h2>
     <form id="registerForm">
-        <label for="Email">Email:</label>
-        <input type="text" id="Email" name="Email" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
-        <br>
-        <button type="submit">Register</button>
+      <label for="Email">Email:</label>
+      <input type="text" id="Email" name="Email" required />
+      <br />
+      <label for="Email">Name:</label>
+      <input type="text" id="Name" name="Name" required />
+      <br />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <br />
+      <label for="confirmPassword">Confirm Password:</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        required
+      />
+      <br />
+      <button type="submit">Register</button>
     </form>
 
     <script>
-        document.getElementById("registerForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
 
-            const requestData = {
-                Email: document.getElementById("Email").value,
-                Password: document.getElementById("password").value,
-            };
-            // console.log(body);
-            fetch("http://localhost:8080/api/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(requestData),
+          const requestData = {
+            Email: document.getElementById("Email").value,
+            Password: document.getElementById("password").value,
+          };
+          // console.log(body);
+          fetch("/api/v1/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert(data.message);
+                // window.location.href = "/api/welcome"; // Redirect to welcome page
+              } else {
+                console.log(data.success);
+                alert("Registration failed: " + data.message);
+              }
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    // window.location.href = "/api/welcome"; // Redirect to welcome page
-                } else {
-                    console.log(data.success);
-                    alert("Registration failed: " + data.message);
-                }
-            })
-            .catch(error => {
-                alert("An error occurred while registering.");
-                console.log("Response:", error.response);
+            .catch((error) => {
+              alert("An error occurred while registering.");
+              console.log("Response:", error.response);
             });
         });
     </script>
-</body>
+  </body>
 </html>
-
