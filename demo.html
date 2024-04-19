@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User List</title>
+</head>
+<body>
+
+<h1>User List</h1>
+<div id="user-list"></div>
+
+<script>
+  // 定義API端點
+  const apiEndpoint = 'https://reqres.in/api/users';
+
+  // 從API獲取用戶資料
+  fetch(apiEndpoint)
+    .then(response => response.json())
+    .then(data => {
+      // 將用戶資料顯示在網頁上
+      const userList = document.getElementById('user-list');
+      data.data.forEach(user => {
+        const userElement = document.createElement('div');
+        userElement.innerHTML = `
+          <p>ID: ${user.id}</p>
+          <p>Name: ${user.first_name} ${user.last_name}</p>
+          <p>Email: ${user.email}</p>
+          <img src="${user.avatar}" alt="User Avatar" style="width: 100px;">
+          <hr>
+        `;
+        userList.appendChild(userElement);
+      });
+    })
+    .catch(error => {
+      console.error('There was a problem fetching the user data:', error);
+    });
+</script>
+
+</body>
+</html>
