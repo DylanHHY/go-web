@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	DB "go-side-project/initializers"
+	data "go-side-project/initializers"
 	model "go-side-project/models"
 	"net/http"
 
@@ -10,9 +10,7 @@ import (
 )
 
 func Login(c *gin.Context){
-	message := "Hello World"
-	text := "Welcome to world of Golang again :)))"
-	c.JSON(http.StatusOK, gin.H{"message": message, "text": text})
+
 }
 
 func Register(c *gin.Context){
@@ -31,7 +29,7 @@ func Register(c *gin.Context){
 	user.Password = string(hashedPassword)
 	user.Role = "USER"
 
-	if err := DB.DB.Create(&user).Error; err != nil {
+	if err := data.DB.Create(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user"})
 		return
 	}

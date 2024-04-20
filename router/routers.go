@@ -2,10 +2,8 @@ package router
 
 import (
 	"go-side-project/controllers"
-	"net/http"
 
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,24 +16,24 @@ func InitRouter() *gin.Engine {
 	config.AllowHeaders = append(config.AllowHeaders, "Authorization")
 
 	router.Use(cors.New(config))
-	router.Use(static.Serve("/", static.LocalFile("./frontend", false)))
 
 	api := router.Group("api/v1")
 	{
+
 		api.GET("/welcome", controllers.HomeIndex)
+		
+		// user api
 		api.POST("/login", controllers.Login)
 		api.POST("/register", controllers.Register)
-	}
 
-	router.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "/index.html")
-	})
-	router.GET("/login", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "/login.html")
-	})
-	router.GET("/register", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "/register.html")
-	})
+		// post api
+		api.GET("/posts", controllers.GetAllPosts)
+		api.POST("/posts", controllers.CreatePost)
+		api.GET("/posts/:id", controllers.ShowPost)
+		api.PUT("/posts/:id", controllers.UpdatePost)
+		api.DELETE("/posts/:id", controllers.DeletePost)
+
+	}
 
 	return router
 }
