@@ -2,6 +2,7 @@ package router
 
 import (
 	"go-side-project/controllers"
+	midd "go-side-project/middleware"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,7 @@ func InitRouter() *gin.Engine {
 		api.POST("/register", controllers.Register)
 
 		// post api
-		api.GET("/posts", controllers.GetAllPosts)
+		api.GET("/posts", midd.AuthMiddleware(),controllers.GetAllPosts)
 		api.POST("/posts", controllers.CreatePost)
 		api.GET("/posts/:id", controllers.ShowPost)
 		api.PUT("/posts/:id", controllers.UpdatePost)
