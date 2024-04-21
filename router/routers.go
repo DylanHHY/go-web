@@ -25,14 +25,15 @@ func InitRouter() *gin.Engine {
 		
 		// user api
 		api.POST("/login", controllers.Login)
+		api.DELETE("/logout", controllers.Logout)
 		api.POST("/register", controllers.Register)
 
 		// post api
-		api.GET("/posts", midd.AuthMiddleware(),controllers.GetAllPosts)
-		api.POST("/posts", controllers.CreatePost)
-		api.GET("/posts/:id", controllers.ShowPost)
-		api.PUT("/posts/:id", controllers.UpdatePost)
-		api.DELETE("/posts/:id", controllers.DeletePost)
+		api.GET("/posts",controllers.GetAllPosts)
+		api.POST("/posts", midd.AuthMiddleware(), controllers.CreatePost)
+		api.GET("/posts/:id", midd.AuthMiddleware(), controllers.ShowPost)
+		api.PUT("/posts/:id", midd.AuthMiddleware(), controllers.UpdatePost)
+		api.DELETE("/posts/:id",  midd.AuthMiddleware(), controllers.DeletePost)
 
 	}
 
